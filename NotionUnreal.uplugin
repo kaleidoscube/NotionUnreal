@@ -1,0 +1,34 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "NotionUnreal",
+	"Description": "Notion Unreal",
+	"Category": "Other",
+	"CreatedBy": "kaleidoscube",
+	"CreatedByURL": "www.kaleidoscube.com",
+	"DocsURL": "https://kaleidoscube.notion.site/Notion-Unreal-Integration-a55198f0c613465195ab7276f55bee3d?pvs=4",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EngineVersion": "5.2.0",
+	"CanContainContent": true,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "NotionUnreal",
+			"Type": "DeveloperTool",
+			"LoadingPhase": "PreLoadingScreen",
+			"PlatformAllowList": [
+				"Win64"
+			]
+		},
+		{
+			"Name": "NotionUnrealEditor",
+			"Type": "Editor",
+			"LoadingPhase": "PreDefault",
+			"TargetAllowList": [
+				"Editor"
+			]
+		}
+	]
+}
