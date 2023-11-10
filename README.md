@@ -162,3 +162,5 @@ This will save the initial value that you set via the “Set Notion Task Propert
 
 
 If you have any further questions, please reach out to us :) 
+
+Special thanks to Damian Nowakowski for the Editor UI Shortcut Template that we used in this plugin: https://github.com/zompi2/UE4EditorPluginTemplate
