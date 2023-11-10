@@ -1,5 +1,5 @@
 # NotionUnreal
-A Notion Integration for Unreal Engine. Allows to create tasks or pages for bug tracking, feature requests in standalone games and the Unreal Editor.
+A Notion Integration for Unreal Engine. Allows you to create tasks or pages for bug tracking and feature requests in standalone development games or the Unreal Editor.
 
 The integration can be seamlessly added to your existing Unreal project as a plugin.
 
