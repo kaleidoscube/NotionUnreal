@@ -18,7 +18,12 @@ It offers the following features:
 - Attaching a screenshot to the task you are creating
 - You can scribble inside of the screenshot you want to upload for additional context or instructions
 
-![Untitled](https://github.com/kaleidoscube/NotionUnreal/assets/100562356/082b9f88-333b-4ce5-8921-86029815de6a)
+![NotionOverlay](https://github.com/kaleidoscube/NotionUnreal/assets/100562356/a9ba106b-2e6e-40c8-ba27-6d89898b0701)
+
+
+### Video Demo
+[![Youtube Video Demo](https://github.com/kaleidoscube/NotionUnreal/assets/100562356/4535da5d-34e5-462b-9fb5-9b0178c7717d)](http://www.youtube.com/watch?v=kd9rsYIT0A8 "Notion Integration for Unreal Engine - Free plugin"))
+
 
 # Setup
 
