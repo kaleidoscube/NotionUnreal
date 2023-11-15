@@ -84,7 +84,7 @@ The usage of the plugin is super easy.
 
 ### Setting up file hosting with [bunny.net](https://bunny.net/?ref=b7r15bu3if)
 
-Sign up for an account at [bunny.net](https://bunny.net/?ref=b7r15bu3if) and create a new storage zone:
+Sign up for an account at bunny.net and create a new storage zone:
 
 1. Select `Storage` in the menu and click `+ Add Storage Zone`.
 2. Give your storage space a name, such as "UnrealNotionStorage". You can configure the storage as you like. We choose the Standard Tier with just one storage region.
