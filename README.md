@@ -53,7 +53,7 @@ Follow these steps to make the plugin work as intended:
 6. Go to your [notion.so](http://notion.so/) and open the database where you store your project's tasks. We need the ID of your database so that Unreal knows where to create new entries.
 The URL should look something like this:
 `notion.so/YOURWORKSPACE/3es5asdasda83ca3440fef5a7db313?v=3ef6a086`
-7. Paste the yellow ID from your database URL into the field called `Notion Database ID`.
+7. Paste the inner ID (in this case 3es5asdasda83ca3440fef5a7db313) from your database URL into the field called `Notion Database ID`.
 8. Restart your editor!
 ![Untitled (1)](https://github.com/kaleidoscube/NotionUnreal/assets/100562356/67601682-1764-4c04-ad67-1c22e556b441)
 
