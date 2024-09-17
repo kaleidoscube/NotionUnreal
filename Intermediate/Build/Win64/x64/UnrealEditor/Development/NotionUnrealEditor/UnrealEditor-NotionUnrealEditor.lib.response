@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-NotionUnrealEditor.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Users\andre\UnrealProjects\PruebaDeNotion\Intermediate\Build\Win64\x64\PruebaDeNotionEditor\Development\UnrealEd\SharedPCH.UnrealEd.ShadowErrors.InclOrderUnreal5_1.h.obj"
+"C:\Users\andre\UnrealProjects\PruebaDeNotion\Plugins\NotionUnreal_test\Intermediate\Build\Win64\x64\UnrealEditor\Development\NotionUnrealEditor\Module.NotionUnrealEditor.cpp.obj"
+"C:\Users\andre\UnrealProjects\PruebaDeNotion\Plugins\NotionUnreal_test\Intermediate\Build\Win64\x64\UnrealEditor\Development\NotionUnrealEditor\Default.rc2.res"
+/OUT:"C:\Users\andre\UnrealProjects\PruebaDeNotion\Plugins\NotionUnreal_test\Intermediate\Build\Win64\x64\UnrealEditor\Development\NotionUnrealEditor\UnrealEditor-NotionUnrealEditor.lib"
