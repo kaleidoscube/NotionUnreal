@@ -173,7 +173,7 @@ class NOTIONUNREAL_API UNotionSettings : public UDeveloperSettings
 public:
 	UNotionSettings(const FObjectInitializer& ObjectInitializer);
 
-	// mapeo de conexiones a bases de datos  
+	// mapeo de conexiones a bases de datos en notion
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Connections")
 	TMap<FString, FNotionConnection> DatabaseConnections;
 
