@@ -7,7 +7,7 @@
 class FNotionUnrealModule : public IModuleInterface
 {
 	IConsoleCommand* ShowIngameTaskCommand;
-	UNotionKeyCommands* commands;
+	class UNotionKeyCommands* commands;
 
 public:
 
