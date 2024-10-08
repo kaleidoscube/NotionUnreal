@@ -39,7 +39,10 @@ Therefore, go to https://www.notion.so/my-integrations and follow these steps:
     1. Read content
     2. Insert content
     3. Read user information without email addresses
-4. Go to `Secrets` and copy the secret key.
+5. Go to `Secrets` and copy the secret key.
+4. Open the Notion database where you want to store your Unreal Tasks and open the small menu on the top right. There, under Connections, connect the database with your newly created Integration.
+![image](https://github.com/user-attachments/assets/79d3e110-305d-436f-b8ed-fadcc489dea5)
+
 
 ### B. Setup in Unreal
 
