@@ -148,6 +148,22 @@ struct FNotionKeyInfo
 	}
 };
 
+USTRUCT(BlueprintType)
+struct FNotionConnection
+{
+	GENERATED_BODY()
+
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Connections")
+	FString notionAPIKey;
+
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Connections")
+	FString notionDatabaseID;
+
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Connections", meta = (EditCondition = false))
+	FString DatabaseName;
+};
+
+// Prueba de notion
 
 UCLASS(config = Notion, defaultconfig, meta = (DisplayName = "Notion Integration"))
 class NOTIONUNREAL_API UNotionSettings : public UDeveloperSettings
@@ -157,6 +173,9 @@ class NOTIONUNREAL_API UNotionSettings : public UDeveloperSettings
 public:
 	UNotionSettings(const FObjectInitializer& ObjectInitializer);
 
+	// mapeo de conexiones a bases de datos en notion
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Connections")
+	TMap<FString, FNotionConnection> DatabaseConnections;
 
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = NotionAuthentication)
 		FString notionAPIKey;
