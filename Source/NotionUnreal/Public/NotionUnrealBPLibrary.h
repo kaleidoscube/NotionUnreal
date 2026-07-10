@@ -24,4 +24,9 @@ public:
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Upload Log", Keywords = "Get Game Log"), Category = "Notion Plugin Internal")
 	static void UploadLog(const FLogResponse& OnComplete);
 
+	/** Uploads a file directly to Notion via the File Upload API (create upload -> send contents).
+	 *  On success, OnDone receives the file_upload id to attach with
+	 *  {"type":"file_upload","file_upload":{"id":"..."}}; the id must be attached within 1 hour. */
+	static void UploadFileToNotion(const FString& Filename, const FString& ContentType, TArray<uint8> Data, TFunction<void(int32 Status, const FString& Response, const FString& FileUploadId)> OnDone);
+
 };

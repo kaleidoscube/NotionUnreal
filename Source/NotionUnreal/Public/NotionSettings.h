@@ -179,6 +179,11 @@ public:
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = Settings)
 		bool SendLog;
 
+	/** Max size per uploaded file in MB. Notion caps single-part uploads at 20 MB, free workspaces at 5 MB.
+	 *  Oversized logs are tail-truncated; oversized screenshots are recompressed at lower quality. */
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 1, ClampMax = 20))
+		int32 MaxUploadSizeMB = 5;
+
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = Settings)
 		ENotionScreenPosition InGameWindowPosition = ENotionScreenPosition::BottomLeft;
 
@@ -190,16 +195,6 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = PaintMode)
 		TArray<FColor> Colors = { FColor(255,255,255,255), FColor(0,0,0,255), FColor(255,0,0,255), FColor(0,0,255,255), FColor(255,255,0,255) };
-
-	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = FileHostingCUrlAuth)
-		FString fileHostUploadUrl = "https://storage.bunnycdn.com/YOURSTORAGE/";
-
-	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = FileHostingCUrlAuth)
-		TMap<FString, FString> fileHostUploadHeaders;
-
-	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = FileHostingCUrlAuth)
-		FString filePublicParentUrl = "https://YOURSTORAGE.b-cdn.net";
-
 
 	void RetrieveDatabase();
 	void RetrieveUsers();

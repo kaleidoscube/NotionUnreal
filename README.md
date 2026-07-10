@@ -11,12 +11,11 @@ It offers the following features:
 - Option to hide certain task properties from the UI
 - Option to set properties in advance via blueprints - perfect for game location tags, weapon tags, etc.
 
-> **💡 The following features are dependent on a third party (or your own) file hosting setup, as Notion does not allow files to be uploaded:**
-
-
 - Attaching the current game log to the task you are creating
 - Attaching a screenshot to the task you are creating
 - You can scribble inside of the screenshot you want to upload for additional context or instructions
+
+> **💡 Logs and screenshots are uploaded directly to Notion via its [File Upload API](https://developers.notion.com/docs/uploading-small-files) — no third-party file hosting is required.**
 
 ![NotionOverlay](https://github.com/kaleidoscube/NotionUnreal/assets/100562356/a9ba106b-2e6e-40c8-ba27-6d89898b0701)
 
@@ -79,39 +78,13 @@ The usage of the plugin is super easy.
 
 # Adding Logs and Screenshots
 
-**Unfortunately, the Notion API does not allow files to be uploaded directly to Notion.** Therefore, if you want full functionality, **you need another third-party file hoster** with REST API access to upload logs and screenshots.
+Logs and screenshots are uploaded **directly to Notion** via the [File Upload API](https://developers.notion.com/docs/uploading-small-files) — no third-party file hoster or extra configuration is needed. The Notion API key you already configured is all that's required.
 
-*We use [bunny.net](https://bunny.net/?ref=b7r15bu3if) for this, as we found the pricing to be quite good. At the time of writing this documentation, you would probably only pay the minimum of $1 per month for file hoster usage.*
+A few things to know:
 
-*However, this should work with any other file hoster with REST API access. The plugin is written in a way that allows you to connect to other servers as well. Knowledge of cURL is recommended - you can configure the request headers with your own AccessKeys, etc. inside the Notion Integration settings.*
-
-### Setting up file hosting with [bunny.net](https://bunny.net/?ref=b7r15bu3if)
-
-Sign up for an account at bunny.net and create a new storage zone:
-
-1. Select `Storage` in the menu and click `+ Add Storage Zone`.
-2. Give your storage space a name, such as "UnrealNotionStorage". You can configure the storage as you like. We choose the Standard Tier with just one storage region.
-3. After you create your storage zone, you will find your API access data once you open the storage and click on `FTP & API Access`. We will need this information later.
-4. Next, you need to create a so-called Pull Zone so that the content you upload is publicly available and we can embed these files inside your Notion tasks.
-5. Select `CDN` in the menu and click `+ Add Pull Zone`.
-6. Give your pull zone a name, such as "UnrealNotionPublic". Under "Origin Type," choose "Storage Zone" and select your recently created storage. You can configure the rest as you like. We choose the Standard Tier with just one pricing region.
-7. After you create your pull zone, open it and see your linked hostnames. This URL is needed in the next step.
-
-### Setting up access inside Unreal
-
-Now we need to tell the Unreal Notion plugin where it can upload files to.
-
-1. Open the `Notion Integration` settings in your `Project Settings`.
-2. Under `File Hosting CUrl Auth` you will see multiple entries that we need to fill. 
-    1. `File Host Upload Url` would be a combination of your Hostname and your Username that you can find within the bunny storage API access settings. 
-        
-        `https://storage.bunnycdn.com/username`
-        
-    2. `AccessKey` is the password that you find in the bunny storage API settings. Please note: Don’t use the read-only password, as we want to upload files to this storage! 
-    3. `File Public Parent Url` is the URL that you see inside of your pullzone.
-
-![Untitled (2)](https://github.com/kaleidoscube/NotionUnreal/assets/100562356/c8c7b780-40c6-489e-88dc-2e2bf58ac02e)
-This is what the config looks like at our company using bunny as a file hoster.
+- Notion caps single-part uploads at **20 MB per file**. Workspaces on the **free plan are limited to 5 MB per file**.
+- Logs are uploaded **gzipped** (as `log_<time>.txt.gz`). This is required: the Cloudflare firewall in front of Notion's API rejects raw log text with a 403 block page, so the log is sent as opaque binary. Unpack with any archive tool (7-Zip, WinRAR, or `tar -xzf` in a terminal).
+- The `Max Upload Size MB` setting (under `Notion Integration -> Settings`, default 5 MB) guards against oversized uploads: if the compressed log exceeds the limit it is tail-truncated (the most recent output is kept) and recompressed, and screenshots are recompressed at a lower JPEG quality until they fit. If your workspace is on a paid plan, you can raise this up to 20.
 
 ### Sending Logs and Screenshots
 

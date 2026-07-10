@@ -3,6 +3,7 @@
 
 #include "NotionScreenshotTaker.h"
 #include "NotionSettings.h"
+#include "NotionUnrealBPLibrary.h"
 
 #include "IImageWrapper.h"
 #include "IImageWrapperModule.h"
@@ -45,43 +46,39 @@ void UNotionScreenshotTaker::ScreenshotReceived(int32 InSizeX, int32 InSizeY, co
 	}
 
 
-	TArray64<uint8> CompressedImage = ImageWrapper->GetCompressed(70);
-	CompressedImage.Shrink();
-	TArray<uint8> CompressedImageDummy = TArray<uint8>(CompressedImage.GetData(), CompressedImage.GetAllocatedSize());
+	const UNotionSettings* NotionSettings = GetDefault<UNotionSettings>();
+	const int64 MaxBytes = (int64)NotionSettings->MaxUploadSizeMB * 1024 * 1024;
+
+	// Step the JPEG quality down until the image fits under the upload size limit
+	TArray64<uint8> CompressedImage;
+	for (const int32 Quality : { 70, 50, 30 })
+	{
+		CompressedImage = ImageWrapper->GetCompressed(Quality);
+		if (MaxBytes <= 0 || CompressedImage.Num() <= MaxBytes)
+		{
+			break;
+		}
+	}
+	if (MaxBytes > 0 && CompressedImage.Num() > MaxBytes)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Screenshot exceeds MaxUploadSizeMB (%d MB) even at lowest quality, upload will likely be rejected."), NotionSettings->MaxUploadSizeMB);
+	}
+
+	TArray<uint8> CompressedImageData = TArray<uint8>(CompressedImage.GetData(), (int32)CompressedImage.Num());
 
 	GEngine->GameViewport->OnScreenshotCaptured().RemoveAll(this);
 	bIsScreenshotRequested = false;
 
 	FString File;
 	FString time = FDateTime::Now().ToString().Replace(TEXT("."), TEXT("-"), ESearchCase::IgnoreCase);
-	File.Append("screenshot_" + time + ".png");
+	File.Append("screenshot_" + time + ".jpg");
 
-
-	FHttpModule& HttpModule = FHttpModule::Get();
-	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> httpRequest = HttpModule.CreateRequest();
-
-	const UNotionSettings* NotionSettings = GetDefault<UNotionSettings>();
-
-	httpRequest->SetVerb(TEXT("PUT"));
-
-	httpRequest->SetURL(NotionSettings->fileHostUploadUrl + "/notionScreenshots/" + File);
-
-	for (auto& Elem : NotionSettings->fileHostUploadHeaders)
-	{
-		httpRequest->AppendToHeader(Elem.Key, Elem.Value);
-	}
-
-	httpRequest->SetContent(CompressedImageDummy);
-
-		httpRequest->OnProcessRequestComplete().BindLambda(
-		[this, File](
-			FHttpRequestPtr Request,
-			FHttpResponsePtr Response,
-			bool ConnectedSuccessfully) mutable {
-				ScreenshotUploaded.Broadcast(Response->GetResponseCode(), Response->GetContentAsString(), "/notionScreenshots/" + File);
+	TWeakObjectPtr<UNotionScreenshotTaker> WeakThis(this);
+	UNotionUnrealBPLibrary::UploadFileToNotion(File, TEXT("image/jpeg"), MoveTemp(CompressedImageData),
+		[WeakThis](int32 Status, const FString& ResponseString, const FString& FileUploadId) {
+			if (WeakThis.IsValid())
+			{
+				WeakThis->ScreenshotUploaded.Broadcast(Status, ResponseString, FileUploadId);
+			}
 		});
-
-	// Send the request 
-	httpRequest->ProcessRequest();
-
 }
