@@ -145,9 +145,15 @@ void UNotionUnrealBPLibrary::UploadFileToNotion(const FString& Filename, const F
 
             sendRequest->SetVerb(TEXT("POST"));
             sendRequest->SetURL(UploadUrl);
-            sendRequest->AppendToHeader(TEXT("Authorization"), TEXT("Bearer " + NotionSettings->notionAPIKey));
+            // The upload_url is a Notion API endpoint that rejects the request with a 401
+            // unless the bearer token is present. Only skip the auth headers if Notion ever
+            // hands back a presigned storage URL on another host, which validates on its own.
+            if (UploadUrl.StartsWith(TEXT("https://api.notion.com/")))
+            {
+                sendRequest->AppendToHeader(TEXT("Authorization"), TEXT("Bearer " + NotionSettings->notionAPIKey));
+                sendRequest->AppendToHeader(TEXT("Notion-Version"), TEXT("2022-06-28"));
+            }
             sendRequest->AppendToHeader(TEXT("Content-Type"), TEXT("multipart/form-data; boundary=" + Boundary));
-            sendRequest->AppendToHeader(TEXT("Notion-Version"), TEXT("2022-06-28"));
 
             sendRequest->SetContent(MoveTemp(Body));
 
